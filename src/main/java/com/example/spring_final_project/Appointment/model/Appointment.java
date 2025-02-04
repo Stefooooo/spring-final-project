@@ -4,13 +4,15 @@ import com.example.spring_final_project.Doctor.model.Doctor;
 import com.example.spring_final_project.User.model.User;
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "appointments")
 public class Appointment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @ManyToOne
     @JoinColumn(name = "doctor_id", referencedColumnName = "id", nullable = false)
@@ -25,7 +27,7 @@ public class Appointment {
         this.user = user;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
