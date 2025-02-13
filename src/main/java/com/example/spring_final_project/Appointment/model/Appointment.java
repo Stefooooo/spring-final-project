@@ -3,9 +3,16 @@ package com.example.spring_final_project.Appointment.model;
 import com.example.spring_final_project.Doctor.model.Doctor;
 import com.example.spring_final_project.User.model.User;
 import jakarta.persistence.*;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "appointments")
 public class Appointment {
@@ -22,28 +29,11 @@ public class Appointment {
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
-    public Appointment(Doctor doctor, User user) {
-        this.doctor = doctor;
-        this.user = user;
-    }
+    @Column
+    private LocalDateTime createdOn;
 
-    public UUID getId() {
-        return id;
-    }
+    @Column
+    private LocalDateTime updatedOn;
 
-    public Doctor getDoctor() {
-        return doctor;
-    }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

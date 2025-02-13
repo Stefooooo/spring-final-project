@@ -2,12 +2,18 @@ package com.example.spring_final_project.Doctor.model;
 
 import com.example.spring_final_project.Appointment.model.Appointment;
 import jakarta.persistence.*;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "doctors")
 public class Doctor {
@@ -35,101 +41,19 @@ public class Doctor {
     private int yearsOfExpertise;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
-    private Set<Appointment> appointments;
+    private Set<Appointment> appointments = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
-    private Specialty specialty;
+    private Departament specialty;
 
     @Column
     private String description;
 
-    public Doctor(String firstName, String password, String lastName, Specialty specialty) {
-        this.firstName = firstName;
-        this.password = password;
-        this.lastName = lastName;
-        this.specialty = specialty;
-        this.appointments = new HashSet<>();
-    }
+    @Column
+    private LocalDateTime createdOn;
 
-    public Doctor(String firstName, String lastName, int yearsOfExpertise) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.yearsOfExpertise = yearsOfExpertise;
-    }
+    @Column
+    private LocalDateTime updatedOn;
 
-    public UUID getId() {
-        return id;
-    }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getYearsOfExpertise() {
-        return yearsOfExpertise;
-    }
-
-    public void setYearsOfExpertise(int yearsOfExpertise) {
-        this.yearsOfExpertise = yearsOfExpertise;
-    }
-
-    public Specialty getSpecialty() {
-        return specialty;
-    }
-
-    public void setSpecialty(Specialty specialty) {
-        this.specialty = specialty;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
-    public Set<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(Set<Appointment> appointments) {
-        this.appointments = appointments;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 }

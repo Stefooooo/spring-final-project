@@ -3,11 +3,18 @@ package com.example.spring_final_project.PatientCard.model;
 import com.example.spring_final_project.Diagnosis.model.Diagnosis;
 import com.example.spring_final_project.User.model.User;
 import jakarta.persistence.*;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "patient_cards")
 public class PatientCard {
@@ -19,54 +26,29 @@ public class PatientCard {
     @ManyToMany
     private List<Diagnosis> diagnoses = new ArrayList<>();
 
-    @Column(nullable = false, unique = true)
-    @OneToOne(mappedBy = "patientCard")
+    @OneToOne
     private User user;
+
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
+
+    @Column(name = "profile_picture")
+    private String profilePicture;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Gender sex = Gender.NOT_SET;
+    private Gender gender;
 
     @Column(nullable = false)
-    private int age = 18;
+    private int age;
 
-    public PatientCard(User user) {
-        this.user = user;
-    }
+    @Column
+    private LocalDateTime createdOn;
 
-    public UUID getId() {
-        return id;
-    }
+    @Column
+    private LocalDateTime updatedOn;
 
-    public List<Diagnosis> getDiagnoses() {
-        return diagnoses;
-    }
-
-    public void setDiagnoses(List<Diagnosis> diagnoses) {
-        this.diagnoses = diagnoses;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Gender getSex() {
-        return sex;
-    }
-
-    public void setSex(Gender sex) {
-        this.sex = sex;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 }
