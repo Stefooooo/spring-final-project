@@ -26,8 +26,11 @@ public class User {
     @Column(unique = true)
     private String username;
 
-    @Column(unique = true)
+    @Column
     private String pass;
+
+    @Column
+    private String profilePicture;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;

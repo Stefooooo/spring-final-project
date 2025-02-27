@@ -5,21 +5,28 @@ import com.example.spring_final_project.User.model.User;
 import com.example.spring_final_project.User.model.UserRole;
 import com.example.spring_final_project.User.repository.UserRepository;
 import com.example.spring_final_project.exception.DomainException;
+import com.example.spring_final_project.security.UserAuthenticationData;
+import com.example.spring_final_project.web.dto.EditUserProfileRequest;
 import com.example.spring_final_project.web.dto.UserLoginRequest;
 import com.example.spring_final_project.web.dto.UserRegisterRequest;
 import jakarta.transaction.Transactional;
 //import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
@@ -46,6 +53,8 @@ public class UserService {
 
         user.setPatientCard(patientCardService.createPatientCard(user));
 
+        log.info("User with username [%s] and id [%s] has been created!".formatted(user.getUsername(), user.getId()));
+
         return user;
     }
 
@@ -63,19 +72,52 @@ public class UserService {
                 .build();
     }
 
-    public User login(UserLoginRequest userLoginRequest){
 
-        Optional<User> userOptional = userRepository.findByUsername(userLoginRequest.getUsername());
-        if(userOptional.isEmpty()){
-            throw  new DomainException("Invalid information");
-        }
-        User user = userOptional.get();
-        if(!user.getPass().equals(userLoginRequest.getPassword())){
-            throw new DomainException("Invalid information");
-        }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        return user;
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new DomainException("User with this username has not been found!"));
+
+        return new UserAuthenticationData(user.getId(), username, user.getPass(), user.getUserRole(), user.isActive());
     }
 
+    public User getById(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new DomainException("User with id [%s] not found!".formatted(id)));
+    }
 
+    public void editUserDetails(UUID id, @Valid EditUserProfileRequest editUserProfileRequest) {
+        User user = getById(id);
+
+        user.setEmail(editUserProfileRequest.getEmail());
+        user.setProfilePicture(editUserProfileRequest.getProfilePicture());
+        user.setUpdatedOn(LocalDateTime.now());
+
+        userRepository.save(user);
+
+        log.info("Successfully changed the details for user [%s]!".formatted(user.getUsername()));
+    }
+
+    public void switchStatus(UUID id) {
+        User user = getById(id);
+
+        user.setActive(!user.isActive());
+
+        userRepository.save(user);
+
+        log.info("Successfully changed the status for user [%s]!".formatted(user.getUsername()));
+    }
+
+    public void switchRole(UUID id) {
+        User user = getById(id);
+
+        if (user.getUserRole() == UserRole.USER){
+            user.setUserRole(UserRole.ADMIN);
+        } else {
+            user.setUserRole(UserRole.USER);
+        }
+
+        userRepository.save(user);
+
+        log.info("Successfully changed the role for user [%s] to [%s]!".formatted(user.getUsername(), user.getUserRole()));
+    }
 }

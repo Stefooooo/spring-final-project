@@ -116,3 +116,9 @@ p.alert-warning {
   -webkit-text-fill-color: transparent;
   margin: 5px 0 0;
 }
+
+.form-group{
+  margin-bottom:1rem
+  length: 100%
+  width: 28px
+}
