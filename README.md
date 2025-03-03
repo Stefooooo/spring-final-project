@@ -1,0 +1,1 @@
+This is a final project for my SoftUni programming course. I am developing a healthcare app that lets you create and keep track of appointments with doctors. It also lets doctors manage their appointments and fill in a diagnosis to a patient's card after a visitation.
