@@ -33,7 +33,7 @@ public class User {
     private String profilePicture;
 
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    private UserRole role;
 
     @Column(name = "is_active")
     private boolean isActive;

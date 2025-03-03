@@ -65,7 +65,11 @@ public class PatientCardController {
     @GetMapping("/{id}")
     public ModelAndView getPatientCardPage(@PathVariable UUID id){
 
-        ModelAndView modelAndView = new ModelAndView();
+        PatientCard patientCard = patientCardService.getById(id);
+
+        ModelAndView modelAndView = new ModelAndView("patient-card-details");
+        modelAndView.addObject("patientCard", patientCard);
+        modelAndView.addObject("user", patientCard.getUser());
 
         return modelAndView;
 

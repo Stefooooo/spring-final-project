@@ -18,7 +18,9 @@
 </nav>
 <main>
 
-    <th:block th:insert="fragments/navigation-bar :: nav_bar"></th:block>
+    <nav>
+        <th:block th:insert="~{fragments/navigation-bar :: nav_bar}"></th:block>
+    </nav>
 
     <div class="home-section">
         <div class="single-section-box home-profile-information">
@@ -55,49 +57,49 @@
             </a>
         </div>
 
-        <div class="home-section-patient-card">
-            <div class="single-section-box home-profile-information">
-                <div class="profile-header">
-                    <img th:src="${#strings.isEmpty(patientCard.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : user.profilePicture}" alt="Profile Picture" class="profile-avatar">
-                    <div class="details-section">
-                        <div class="details-section-container">
-                            <strong>Patient Card id: </strong>
-                            <p th:text="${patientCard.id}"></p>
-                        </div>
+
+        <div class="single-section-box home-profile-information">
+            <div class="profile-header">
+                <img th:src="${#strings.isEmpty(patientCard.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : user.profilePicture}" alt="Profile Picture" class="profile-avatar">
+                <div class="details-section">
+                    <div class="details-section-container">
+                        <strong>Patient Card id: </strong>
+                        <p th:text="${patientCard.id}"></p>
                     </div>
                 </div>
-                <div class="profile-info">
-                    <div class="details-section-container">
-                        <strong>First Name: </strong>
-                        <p th:text="${#strings.isEmpty(patientCard.firstName) ? 'Edit your profile and add first name!' : patientCard.firstName}"></p>
-                    </div>
-                    <div class="details-section-container">
-                        <strong>Last Name: </strong>
-                        <p th:text="${#strings.isEmpty(patientCard.lastName) ? 'Edit your profile and add last name!' : patientCard.lastName}"></p>
-                    </div>
-                    <div class="details-section-container">
-                        <strong>Date Of Birth: </strong>
-                        <p th:text="${#strings.isEmpty(patientCard.dateOfBirth) ? 'Edit your profile and add age of birth!' : #temporals.format(patientCard.dateOfBirth, 'dd MMM YYYY')}"> </p>
-                    </div>
-                    <div class="details-section-container">
-                        <strong>Gender: </strong>
-                        <p th:if="${patientCard.gender.name() == 'NOT_SET'}">Edit your profile and select gender!</p>
-                        <p th:if="${patientCard.gender.name() != 'NOT_SET'}" th:text="${patientCard.gender}"></p>
-                    </div>
-                </div>
-                <a th:href="@{'/patientCards/' + ${patientCard.id} }" class="profile-actions-button">
-                    <p>See Full Info</p>
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5"></path>
-                    </svg>
-                </a>
-                <a th:href="@{'/patientCards/' + ${patientCard.id} + '/edit-card'}" class="profile-actions-button">
-                    <p>Edit Profile</p>
-                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5"></path>
-                    </svg>
-                </a>
             </div>
+            <div class="profile-info">
+                <div class="details-section-container">
+                    <strong>First Name: </strong>
+                    <p th:text="${#strings.isEmpty(patientCard.firstName) ? 'Edit your profile and add first name!' : patientCard.firstName}"></p>
+                </div>
+                <div class="details-section-container">
+                    <strong>Last Name: </strong>
+                    <p th:text="${#strings.isEmpty(patientCard.lastName) ? 'Edit your profile and add last name!' : patientCard.lastName}"></p>
+                </div>
+                <div class="details-section-container">
+                    <strong>Date Of Birth: </strong>
+                    <p th:text="${#strings.isEmpty(patientCard.dateOfBirth) ? 'Edit your profile and add age of birth!' : #temporals.format(patientCard.dateOfBirth, 'dd MMM YYYY')}"> </p>
+                </div>
+                <div class="details-section-container">
+                    <strong>Gender: </strong>
+                    <p th:if="${patientCard.gender.name() == 'NOT_SET'}">Edit your profile and select gender!</p>
+                    <p th:if="${patientCard.gender.name() != 'NOT_SET'}" th:text="${patientCard.gender}"></p>
+                </div>
+            </div>
+            <a th:href="@{'/patientCards/' + ${patientCard.id} }" class="profile-actions-button">
+                <p>See Full Info</p>
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5"></path>
+                </svg>
+            </a>
+            <a th:href="@{'/patientCards/' + ${patientCard.id} + '/edit-card'}" class="profile-actions-button">
+                <p>Edit Profile</p>
+                <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5"></path>
+                </svg>
+            </a>
+        </div>
 <!--        <div class="single-section-box home-subscription">-->
 <!--            <div class="default-label-box">-->
 <!--                <p th:text="${user.subscriptions[0].type + ' SUBSCRIPTION'}"></p>-->
@@ -141,6 +143,8 @@
 <!--        </div>-->
     </div>
 </main>
-<th:block th:insert="fragments/footer :: footer"></th:block>
+<footer>
+    <th:block th:insert="~{fragments/footer :: footer}"></th:block>
+</footer>
 </body>
 </html>

@@ -16,4 +16,6 @@ public interface ConditionRepository extends JpaRepository<Condition, UUID> {
     Optional<List<Condition>> findAllByDepartament(Departament departament);
 
     Optional<List<Condition>> findAllByDepartamentIn(List<Departament> departaments);
+
+    Optional<List<Condition>> findAllByIsActive(boolean b);
 }

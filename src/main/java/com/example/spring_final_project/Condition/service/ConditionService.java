@@ -4,12 +4,16 @@ import com.example.spring_final_project.Condition.model.Condition;
 import com.example.spring_final_project.Condition.repository.ConditionRepository;
 import com.example.spring_final_project.Doctor.model.Departament;
 import com.example.spring_final_project.exception.DomainException;
+import com.example.spring_final_project.web.dto.ConditionAddRequest;
 import com.example.spring_final_project.web.dto.ConditionRegisterRequest;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.spring_final_project.exception.DomainException;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,33 +29,7 @@ public class ConditionService {
         this.conditionRepository = conditionRepository;
     }
 
-    public Condition registerNewCondition(ConditionRegisterRequest conditionRegisterRequest){
-        Optional<Condition> conditionRequest = conditionRepository.findByName(conditionRegisterRequest.getName());
-
-        if (conditionRequest.isPresent()){
-            throw new DomainException("[%s] already exists as a condition!".formatted(conditionRegisterRequest.getName()));
-        }
-
-        Condition condition = conditionRepository.save(initializeCondition(conditionRegisterRequest));
-
-        log.info("Successfully created condition with name [%s] and id [%s]!".formatted(condition.getName(), condition.getId()));
-
-        return condition;
-    }
-
-    private Condition initializeCondition(ConditionRegisterRequest conditionRegisterRequest) {
-
-        LocalDateTime now = LocalDateTime.now();
-
-        return Condition.builder()
-                .name(conditionRegisterRequest.getName())
-//                .departament(conditionRegisterRequest.getDepartament())
-                .createdOn(now)
-                .updatedOn(now)
-                .build();
-    }
-
-    private Condition getConditionById(UUID uuid){
+    public Condition getConditionById(UUID uuid){
         Optional<Condition> condition = conditionRepository.findById(uuid);
 
         if (condition.isEmpty()){
@@ -61,11 +39,18 @@ public class ConditionService {
         }
     }
 
-    private List<Condition> getAllConditions(){
+    public List<Condition> getAllConditions(){
         return conditionRepository.findAll();
     }
 
-    private List<Condition> getAllConditionsByDepartment(Departament departament){
+    public List<Condition> getAllActiveConditions(){
+
+        Optional<List<Condition>> conditions = conditionRepository.findAllByIsActive(true);
+
+        return conditions.orElseGet(ArrayList::new);
+    }
+
+    public List<Condition> getAllConditionsByDepartment(Departament departament){
         Optional<List<Condition>> conditions = conditionRepository.findAllByDepartament(departament);
 
         if (conditions.isEmpty()){
@@ -76,7 +61,7 @@ public class ConditionService {
 
     }
 
-    private List<Condition> getAllConditionsByDepartment(List<Departament> departaments){
+    public List<Condition> getAllConditionsByDepartment(List<Departament> departaments){
         Optional<List<Condition>> conditions = conditionRepository.findAllByDepartamentIn(departaments);
 
         if (conditions.isEmpty()){
@@ -87,4 +72,32 @@ public class ConditionService {
 
     }
 
+    public void saveCondition(ConditionAddRequest conditionAddRequest) {
+
+        Condition condition = conditionRepository.save(initializeNewCondition(conditionAddRequest));
+
+        log.info("A new condition with name [%s] and id [%s] was created!".formatted(condition.getName(), condition.getId()));
+    }
+
+    private Condition initializeNewCondition(ConditionAddRequest conditionAddRequest) {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        return Condition.builder()
+                .name(conditionAddRequest.getName())
+                .departament(conditionAddRequest.getDepartament())
+                .isActive(true)
+                .createdOn(now)
+                .updatedOn(now)
+                .build();
+    }
+
+    public void deleteCondition(UUID id) {
+        Condition condition = getConditionById(id);
+
+        condition.setActive(false);
+
+        conditionRepository.save(condition);
+
+    }
 }

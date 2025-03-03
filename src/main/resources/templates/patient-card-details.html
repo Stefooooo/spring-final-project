@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/nav-side-bar.css">
+  <link rel="stylesheet" type="text/css" href="/css/home-common.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
+  <link rel="stylesheet" type="text/css" href="/css/patient-card-details.css">
+    <title>Patient Card</title>
+</head>
+<body>
+
+
+
+<div class="header">Patient Card Details</div>
+<!--<a th:href="@{/users}" class="all-users-button">Users</a>-->
+
+<div class="main-container">
+<nav>
+  <th:block th:insert="~{fragments/navigation-bar :: nav_bar}"></th:block>
+</nav>
+  <div class="profile-section">
+    <img th:src="${#strings.isEmpty(patientCard.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : patientCard.profilePicture}" alt="Profile Picture" class="profile-avatar">
+<!--    <h1 th:text="${user.username}">Username</h1>-->
+  </div>
+
+  <div class="details-container">
+    <div class="details-card">
+      <h2>Personal Information</h2>
+      <div class="details-item"><span>First Name:</span><span th:text="${patientCard.firstName}"></span></div>
+      <div class="details-item"><span>Last Name:</span><span th:text="${patientCard.lastName}"></span></div>
+      <div class="details-item"><span>Date Of Birth:</span><span th:text="${#strings.isEmpty(patientCard.dateOfBirth) ? 'Edit your profile and add age of birth!' : #temporals.format(patientCard.dateOfBirth, 'dd MMM YYYY')}"></span></div>
+      <div class="details-section-container">
+        <strong>Gender: </strong>
+        <p th:if="${patientCard.gender.name() == 'NOT_SET'}">Edit your profile and select gender!</p>
+        <p th:if="${patientCard.gender.name() != 'NOT_SET'}" th:text="${patientCard.gender}"></p>
+      </div>
+<!--      <div class="details-item"><span>Phone:</span><span th:text="${user.phoneNumber}">+359888888888</span></div>-->
+<!--      <div class="details-item"><span>Address:</span><span th:text="${user.address}">Sofia, Borovo</span></div>-->
+    </div>
+  </div>
+
+  <div class="transaction-table">
+    <h2>Diagnoses</h2>
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Condition</th>
+        <th>Description</th>
+        <th>Treatment</th>
+        <th>Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each = "diagnosis : ${patientCard.diagnoses}">
+        <td th:text = "${diagnosis.id}"></td>
+        <td th:text = "${diagnosis.conditions.name}"></td>
+        <td th:text = "${diagnosis.description}"></td>
+        <td th:text = "${diagnosis.treatment}"></td>
+        <td th:text = "${diagnosis.dateDiagnosis}"></td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<footer>
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
+</footer>
+
+</body>
+</html>

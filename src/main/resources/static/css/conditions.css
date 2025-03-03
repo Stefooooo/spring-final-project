@@ -1,0 +1,25 @@
+.condition-delete-button{
+    width:  80px;
+    height:  40px;
+    border-radius:  2px;
+    background-color: rgb(182, 36, 36)
+    color: white
+}
+
+.condition-delete-button:hover{
+    width:  80px;
+    height:  40px;
+    border-radius:  2px;
+    background-color: rgb(183, 71, 71)
+    color: white
+    border: none
+}
+
+.condition-delete-button:action{
+    width:  80px;
+    height:  40px;
+    border-radius:  2px;
+    background-color: rgb(188, 100, 100)
+    color: white
+    border: none
+}

@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -63,7 +64,7 @@ public class UserService implements UserDetailsService {
         LocalDateTime now = LocalDateTime.now();
 
         return User.builder()
-                .userRole(UserRole.USER)
+                .role(UserRole.USER)
                 .isActive(true)
                 .createdOn(now)
                 .updatedOn(now)
@@ -78,11 +79,15 @@ public class UserService implements UserDetailsService {
 
         User user = userRepository.findByUsername(username).orElseThrow(() -> new DomainException("User with this username has not been found!"));
 
-        return new UserAuthenticationData(user.getId(), username, user.getPass(), user.getUserRole(), user.isActive());
+        return new UserAuthenticationData(user.getId(), username, user.getPass(), user.getRole(), user.isActive());
     }
 
     public User getById(UUID id) {
         return userRepository.findById(id).orElseThrow(() -> new DomainException("User with id [%s] not found!".formatted(id)));
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     public void editUserDetails(UUID id, @Valid EditUserProfileRequest editUserProfileRequest) {
@@ -110,14 +115,14 @@ public class UserService implements UserDetailsService {
     public void switchRole(UUID id) {
         User user = getById(id);
 
-        if (user.getUserRole() == UserRole.USER){
-            user.setUserRole(UserRole.ADMIN);
+        if (user.getRole() == UserRole.USER){
+            user.setRole(UserRole.ADMIN);
         } else {
-            user.setUserRole(UserRole.USER);
+            user.setRole(UserRole.USER);
         }
 
         userRepository.save(user);
 
-        log.info("Successfully changed the role for user [%s] to [%s]!".formatted(user.getUsername(), user.getUserRole()));
+        log.info("Successfully changed the role for user [%s] to [%s]!".formatted(user.getUsername(), user.getRole()));
     }
 }

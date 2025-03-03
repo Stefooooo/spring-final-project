@@ -27,6 +27,9 @@ public class Condition {
     private Departament departament;
 
     @Column
+    private boolean isActive;
+
+    @Column
     private LocalDateTime createdOn;
 
     @Column

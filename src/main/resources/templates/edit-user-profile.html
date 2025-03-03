@@ -16,7 +16,9 @@
 <body>
 
 <main>
-    <th:block th:insert="fragments/navigation-bar :: nav_bar"></th:block>
+    <nav>
+        <th:block th:insert="~{fragments/navigation-bar :: nav_bar}"></th:block>
+    </nav>
 
     <div class="home-section">
         <div class="single-section-box profile-menu">
@@ -65,7 +67,9 @@
     </div>
 </main>
 
-<th:block th:insert="fragments/footer :: footer"></th:block>
+<footer>
+    <th:block th:insert="~{fragments/footer :: footer}"></th:block>
+</footer>
 
 </body>
 </html>

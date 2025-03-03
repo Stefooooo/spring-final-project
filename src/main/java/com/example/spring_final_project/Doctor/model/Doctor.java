@@ -40,6 +40,9 @@ public class Doctor {
     @Column(name = "years_of_expertise")
     private int yearsOfExpertise;
 
+    @Transient
+    private String role = "DOCTOR";
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
     private Set<Appointment> appointments = new HashSet<>();
 
