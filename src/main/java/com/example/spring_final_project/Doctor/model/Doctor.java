@@ -1,6 +1,7 @@
 package com.example.spring_final_project.Doctor.model;
 
 import com.example.spring_final_project.Appointment.model.Appointment;
+import com.example.spring_final_project.User.model.UserRole;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +23,9 @@ public class Doctor {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column
+    private String email;
+
     @Column(unique = true)
     private String password;
 
@@ -35,19 +39,22 @@ public class Doctor {
     private String lastName;
 
     @Column
-    private String email;
+    private String phoneNumber;
 
     @Column(name = "years_of_expertise")
     private int yearsOfExpertise;
 
-    @Transient
-    private String role = "DOCTOR";
+    @Column
+    private boolean isActive;
+
+    @Column
+    private UserRole role;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")
     private Set<Appointment> appointments = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
-    private Departament specialty;
+    private Departament department;
 
     @Column
     private String description;

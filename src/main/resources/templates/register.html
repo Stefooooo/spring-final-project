@@ -37,7 +37,8 @@
             <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
             <button>Register</button>
-            <p class="form-already">Already have an account? <a th:href="@{/login}">Login</a>!</p>
+            <p class="form-already">Already have an account? <a th:href="@{/login}">Login here</a>!</p>
+            <p class="form-already">Are you a doctor? <a th:href="@{/register-doctor}">Register now</a>!</p>
         </form>
 
     </section>

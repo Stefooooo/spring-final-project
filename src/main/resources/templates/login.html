@@ -34,6 +34,12 @@
             <input type="password" placeholder="Password" id="password" th:field="*{password}" required>
             <p class="alert-warning" th:if="${errorMessage}" th:text="${errorMessage}"></p>
 
+<!--            <div>-->
+<!--            <input type="checkbox" id="isDoctor" name="isDoctor" th:checked="*{isDoctor}">-->
+<!--            <label for="isDoctor">I am a doctor</label>-->
+<!--            </div>-->
+
+
             <button type="submit">Log In</button>
 
             <p class="form-already">Don't have an account? <a th:href="@{/register}">Register now</a>!</p>
