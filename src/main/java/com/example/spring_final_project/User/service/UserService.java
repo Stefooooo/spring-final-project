@@ -5,6 +5,7 @@ import com.example.spring_final_project.User.model.User;
 import com.example.spring_final_project.User.model.UserRole;
 import com.example.spring_final_project.User.repository.UserRepository;
 import com.example.spring_final_project.exception.DomainException;
+import com.example.spring_final_project.notification.service.NotificationService;
 import com.example.spring_final_project.security.UserAuthenticationData;
 import com.example.spring_final_project.web.dto.EditUserProfileRequest;
 import com.example.spring_final_project.web.dto.UserLoginRequest;
@@ -33,12 +34,14 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final PatientCardService patientCardService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PatientCardService patientCardService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, PatientCardService patientCardService, NotificationService notificationService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.patientCardService = patientCardService;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -53,6 +56,8 @@ public class UserService implements UserDetailsService {
         User user = userRepository.save(initializeUser(userRegisterRequest));
 
         user.setPatientCard(patientCardService.createPatientCard(user));
+
+        notificationService.saveNotificationPreference(user.getId(), false, null);
 
         log.info("User with username [%s] and id [%s] has been created!".formatted(user.getUsername(), user.getId()));
 
