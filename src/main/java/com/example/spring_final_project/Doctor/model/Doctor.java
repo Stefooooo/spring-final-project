@@ -47,7 +47,7 @@ public class Doctor {
     @Column
     private boolean isActive;
 
-    @Column
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "doctor")

@@ -9,6 +9,8 @@ import com.example.spring_final_project.web.dto.ConditionRegisterRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import com.example.spring_final_project.exception.DomainException;
 
@@ -39,10 +41,12 @@ public class ConditionService {
         }
     }
 
+    @Cacheable("conditions")
     public List<Condition> getAllConditions(){
         return conditionRepository.findAll();
     }
 
+    @Cacheable("active-conditions")
     public List<Condition> getAllActiveConditions(){
 
         Optional<List<Condition>> conditions = conditionRepository.findAllByIsActive(true);
@@ -50,28 +54,7 @@ public class ConditionService {
         return conditions.orElseGet(ArrayList::new);
     }
 
-    public List<Condition> getAllConditionsByDepartment(Departament departament){
-        Optional<List<Condition>> conditions = conditionRepository.findAllByDepartament(departament);
-
-        if (conditions.isEmpty()){
-            throw new DomainException("Conditions for the [%s] Department cannot be found!".formatted(departament.name()));
-        } else {
-            return conditions.get();
-        }
-
-    }
-
-    public List<Condition> getAllConditionsByDepartment(List<Departament> departaments){
-        Optional<List<Condition>> conditions = conditionRepository.findAllByDepartamentIn(departaments);
-
-        if (conditions.isEmpty()){
-            throw new DomainException("Conditions with the selected departments cannot be found!");
-        } else {
-            return conditions.get();
-        }
-
-    }
-
+    @CacheEvict(value = {"conditions", "active-conditions"}, allEntries = true)
     public void saveCondition(ConditionAddRequest conditionAddRequest) {
 
         Condition condition = conditionRepository.save(initializeNewCondition(conditionAddRequest));
@@ -79,6 +62,7 @@ public class ConditionService {
         log.info("A new condition with name [%s] and id [%s] was created!".formatted(condition.getName(), condition.getId()));
     }
 
+    @CacheEvict(value = {"conditions", "active-conditions"}, allEntries = true)
     private Condition initializeNewCondition(ConditionAddRequest conditionAddRequest) {
 
         LocalDateTime now = LocalDateTime.now();
@@ -92,6 +76,7 @@ public class ConditionService {
                 .build();
     }
 
+    @CacheEvict(value = {"conditions", "active-conditions"}, allEntries = true)
     public void deleteCondition(UUID id) {
         Condition condition = getConditionById(id);
 

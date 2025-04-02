@@ -10,6 +10,8 @@ import com.example.spring_final_project.web.dto.DoctorRegisterRequest;
 import com.example.spring_final_project.web.dto.UserRegisterRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -34,35 +36,47 @@ public class DoctorService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<Doctor> getAllDoctorsByDepartment(String department) {
+    @CacheEvict(value = "doctors", allEntries = true)
+    public void registerDoctor(DoctorRegisterRequest doctorRegisterRequest){
 
-        return doctorRepository.findAllByDepartment(department);
+        Optional<Doctor> byEmail = doctorRepository.findByEmail(doctorRegisterRequest.getEmail());
+
+        if (byEmail.isPresent()){
+            throw new DomainException("A doctor with email [%s] already exists!".formatted(doctorRegisterRequest.getEmail()));
+        }
+
+        Doctor doctor = initializeDoctor(doctorRegisterRequest);
+
+        doctorRepository.save(doctor);
+
+        log.info("A doctor with id [%s] and email [%s] was created successfully!".formatted(doctor.getId(), doctor.getEmail()));
 
     }
 
+    @Cacheable("doctors")
     public List<Doctor> getAllDoctors() {
         return  doctorRepository.findAll();
     }
 
 
-//    private Doctor initializeDoctor(DoctorRegisterRequest doctorRegisterRequest) {
-//
-//        LocalDateTime now = LocalDateTime.now();
-//
-//        return Doctor.builder()
-//                .email(doctorRegisterRequest.getEmail())
-//                .role(UserRole.DOCTOR)
-//                .isActive(true)
-//                .createdOn(now)
-//                .updatedOn(now)
-//                .department(doctorRegisterRequest.getDepartament())
-//                .password(passwordEncoder.encode(doctorRegisterRequest.getPassword()))
-//                .build();
-//    }
+    private Doctor initializeDoctor(DoctorRegisterRequest doctorRegisterRequest) {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        return Doctor.builder()
+                .email(doctorRegisterRequest.getEmail())
+                .role(UserRole.DOCTOR)
+                .isActive(true)
+                .createdOn(now)
+                .updatedOn(now)
+                .department(doctorRegisterRequest.getDepartament())
+                .password(passwordEncoder.encode(doctorRegisterRequest.getPassword()))
+                .build();
+
+    }
 
     public Doctor getById(UUID id) {
         return doctorRepository.findById(id).orElseThrow(() -> new DomainException("There is no doctor found with id [%s]!"));
     }
-
 
 }

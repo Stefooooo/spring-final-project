@@ -16,6 +16,8 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -44,6 +46,7 @@ public class UserService implements UserDetailsService {
         this.notificationService = notificationService;
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @Transactional
     public User register(UserRegisterRequest userRegisterRequest){
 
@@ -63,6 +66,7 @@ public class UserService implements UserDetailsService {
 
         return user;
     }
+
 
     private User initializeUser(UserRegisterRequest userRegisterRequest) {
 
@@ -91,10 +95,12 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id).orElseThrow(() -> new DomainException("User with id [%s] not found!".formatted(id)));
     }
 
+    @Cacheable("users")
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void editUserDetails(UUID id, @Valid EditUserProfileRequest editUserProfileRequest) {
         User user = getById(id);
 
@@ -104,9 +110,12 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
+        notificationService.saveNotificationPreference(user.getId(), user.getEmail());
+
         log.info("Successfully changed the details for user [%s]!".formatted(user.getUsername()));
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void switchStatus(UUID id) {
         User user = getById(id);
 
@@ -117,6 +126,7 @@ public class UserService implements UserDetailsService {
         log.info("Successfully changed the status for user [%s]!".formatted(user.getUsername()));
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void switchRole(UUID id) {
         User user = getById(id);
 

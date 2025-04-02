@@ -1,9 +1,6 @@
 package com.example.spring_final_project.notification.client;
 
-import com.example.spring_final_project.notification.client.dto.Notification;
-import com.example.spring_final_project.notification.client.dto.NotificationPreference;
-import com.example.spring_final_project.notification.client.dto.NotificationRequest;
-import com.example.spring_final_project.notification.client.dto.UpsertNotificationPreference;
+import com.example.spring_final_project.notification.client.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(name = "notification_msvc", url = "${notification_msvc.base-url}")
+@FeignClient(name = "notification-msvc", url = "${notification-msvc.base-url}")
 public interface NotificationClient {
 
     @PostMapping("/preferences")
@@ -19,6 +16,9 @@ public interface NotificationClient {
 
     @GetMapping("/preferences")
     ResponseEntity<NotificationPreference> getUserPreference(@RequestParam(name = "userId") UUID userId);
+
+    @PostMapping("/preferences/schedule")
+    ResponseEntity<Void> addUserPreferenceToAddIfNotExistent(@RequestBody UserWithNoPreference userWithNoPreference);
 
     @GetMapping
     ResponseEntity<List<Notification>> getNotificationHistory(@RequestParam(name = "userId")UUID userId);

@@ -5,6 +5,7 @@ import com.example.spring_final_project.User.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -29,11 +30,16 @@ public class Appointment {
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
+
     @Column
     private LocalDateTime createdOn;
 
     @Column
     private LocalDateTime updatedOn;
 
+    @Column
+    private LocalDate time;
 
 }

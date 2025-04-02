@@ -75,15 +75,15 @@ public class IndexController {
         return modelAndView;
     }
 
-    @GetMapping("/register-doctor")
-    public ModelAndView getRegisterDoctorPage(){
-
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("doctors-register");
-        modelAndView.addObject("doctorRegisterRequest", new DoctorRegisterRequest());
-
-        return modelAndView;
-    }
+//    @GetMapping("/register-doctor")
+//    public ModelAndView getRegisterDoctorPage(){
+//
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("doctors-register");
+//        modelAndView.addObject("doctorRegisterRequest", new DoctorRegisterRequest());
+//
+//        return modelAndView;
+//    }
 
 //    @PostMapping("/register-doctor")
 //    public ModelAndView registerNewDoctor(@Valid DoctorRegisterRequest doctorRegisterRequest, BindingResult bindingResult){

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/doctors")
@@ -31,13 +32,27 @@ public class DoctorsController {
 
     @GetMapping()
     @PreAuthorize("hasRole('USER')")
-    public ModelAndView getDoctorsPage(@AuthenticationPrincipal UserAuthenticationData userAuthenticationData){
+    public ModelAndView getAllDoctorsPage(@AuthenticationPrincipal UserAuthenticationData userAuthenticationData){
 
         List<Doctor> doctors = doctorService.getAllDoctors();
         User user = userService.getById(userAuthenticationData.getUserId());
 
         ModelAndView modelAndView = new ModelAndView("doctors");
         modelAndView.addObject("doctors", doctors);
+        modelAndView.addObject("user", user);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public ModelAndView getDoctorPage(@AuthenticationPrincipal UserAuthenticationData userAuthenticationData, @PathVariable UUID id){
+
+        Doctor doctor = doctorService.getById(id);
+        User user = userService.getById(userAuthenticationData.getUserId());
+
+        ModelAndView modelAndView = new ModelAndView("doctor-details");
+        modelAndView.addObject("doctor", doctor);
         modelAndView.addObject("user", user);
 
         return modelAndView;

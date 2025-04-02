@@ -58,7 +58,7 @@
         </div>
 
 
-        <div class="single-section-box home-profile-information">
+        <div class="single-section-box home-profile-information" th:if="${user.role.name() == 'USER'}">
             <div class="profile-header">
                 <img th:src="${#strings.isEmpty(patientCard.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : user.profilePicture}" alt="Profile Picture" class="profile-avatar">
                 <div class="details-section">

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/nav-side-bar.css">
+  <link rel="stylesheet" type="text/css" href="/css/doctors.css">
+  <link rel="stylesheet" type="text/css" href="/css/home-common.css">
+  <link rel="stylesheet" type="text/css" href="/css/home.css">
+  <link rel="stylesheet" type="text/css" href="/css/doctor-details.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Doctor</title>
+</head>
+<body>
+<div class="header">Doctor Profile Dashboard</div>
+<a th:href="@{'/appointments/add/' + ${doctor.id}}" class="all-doctor-button">Create appointment</a>
+
+<!--<nav>-->
+<!--  <th:block th:insert="~{fragments/navigation-bar :: nav_bar}"></th:block>-->
+<!--</nav>-->
+
+<div class="main-container">
+  <div class="profile-section">
+    <img src="https://cdn4.iconfinder.com/data/icons/famous-character-vol-2-flat/48/Avatar_Famous_Characters-07-512.png"
+         alt="Profile Picture" class="profile-avatar">
+    <h1 th:text="${doctor.email}"></h1>
+  </div>
+
+  <div class="details-container">
+    <div class="details-card">
+      <h2>Personal Information</h2>
+      <div class="details-item"><span>Name:</span><span th:text="${doctor.firstName + ' ' + doctor.lastName}"></span></div>
+<!--      <div class="details-item"><span>Country:</span><span th:="${doctor.country}">Bulgaria</span></div>-->
+    </div>
+
+<!--    <div class="details-card">-->
+<!--      <h2>Payment Details</h2>-->
+<!--      <div class="details-item"><span>Amount:</span><span th:="${doctor.balance}">200 EUR</span></div>-->
+<!--    </div>-->
+
+    <div class="details-card">
+      <h2>Contact Information</h2>
+      <div class="details-item"><span>Phone:</span><span th:text="${doctor.phoneNumber}"></span></div>
+<!--      <div class="details-item"><span>Address:</span><span th:="${doctor.phoneNumber}">Sofia, Borovo</span></div>-->
+    </div>
+  </div>
+
+
+
+  <footer>
+    <th:block th:insert="~{fragments/footer :: footer}"></th:block>
+  </footer>
+</div>
+</body>
+</html>
