@@ -37,7 +37,7 @@ public class DoctorsController {
         List<Doctor> doctors = doctorService.getAllDoctors();
         User user = userService.getById(userAuthenticationData.getUserId());
 
-        ModelAndView modelAndView = new ModelAndView("doctors");
+        ModelAndView modelAndView = new ModelAndView("doctorss");
         modelAndView.addObject("doctors", doctors);
         modelAndView.addObject("user", user);
 

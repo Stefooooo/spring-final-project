@@ -22,15 +22,16 @@
 
 <div class="main-container">
   <div class="profile-section">
-    <img src="https://cdn4.iconfinder.com/data/icons/famous-character-vol-2-flat/48/Avatar_Famous_Characters-07-512.png"
-         alt="Profile Picture" class="profile-avatar">
-    <h1 th:text="${doctor.email}"></h1>
+    <img th:src="${#strings.isEmpty(doctor.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : doctor.profilePicture}" alt="Profile Picture" class="profile-avatar">
   </div>
 
   <div class="details-container">
     <div class="details-card">
       <h2>Personal Information</h2>
       <div class="details-item"><span>Name:</span><span th:text="${doctor.firstName + ' ' + doctor.lastName}"></span></div>
+      <div class="details-item"><span>Description:</span><span th:text="${doctor.description}"></span></div>
+      <div class="details-item"><span>Department:</span><span th:text="${doctor.department}"></span></div>
+      <div class="details-item"><span>Years of Experience:</span><span th:text="${doctor.yearsOfExpertise}"></span></div>
 <!--      <div class="details-item"><span>Country:</span><span th:="${doctor.country}">Bulgaria</span></div>-->
     </div>
 
@@ -42,6 +43,7 @@
     <div class="details-card">
       <h2>Contact Information</h2>
       <div class="details-item"><span>Phone:</span><span th:text="${doctor.phoneNumber}"></span></div>
+      <div class="details-item"><span>Email:</span><span th:text="${doctor.email}"></span></div>
 <!--      <div class="details-item"><span>Address:</span><span th:="${doctor.phoneNumber}">Sofia, Borovo</span></div>-->
     </div>
   </div>

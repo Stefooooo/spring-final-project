@@ -5,6 +5,7 @@ import com.example.spring_final_project.Doctor.repository.DoctorRepository;
 import com.example.spring_final_project.User.model.User;
 import com.example.spring_final_project.User.model.UserRole;
 import com.example.spring_final_project.exception.DomainException;
+import com.example.spring_final_project.exception.UsernameAlreadyExistException;
 import com.example.spring_final_project.security.UserAuthenticationData;
 import com.example.spring_final_project.web.dto.DoctorRegisterRequest;
 import com.example.spring_final_project.web.dto.UserRegisterRequest;
@@ -42,7 +43,7 @@ public class DoctorService {
         Optional<Doctor> byEmail = doctorRepository.findByEmail(doctorRegisterRequest.getEmail());
 
         if (byEmail.isPresent()){
-            throw new DomainException("A doctor with email [%s] already exists!".formatted(doctorRegisterRequest.getEmail()));
+            throw new UsernameAlreadyExistException("A doctor with email [%s] already exists!".formatted(doctorRegisterRequest.getEmail()));
         }
 
         Doctor doctor = initializeDoctor(doctorRegisterRequest);

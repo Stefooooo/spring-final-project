@@ -99,6 +99,31 @@
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5"></path>
                 </svg>
             </a>
+        </div><br>
+
+
+        <div class="single-section-box home-profile-information" th:if="${user.role.name() == 'USER' && numberOfAppointments > 0}">
+            <div class="profile-header">
+                <div class="details-section">
+                    <div class="details-section-container">
+                        <strong>Next Appointment: </strong>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-info">
+                <div class="details-section-container">
+                    <strong>Doctor: </strong>
+                    <p th:text="${appointment.doctor.firstName + ' ' + appointment.doctor.lastName}"></p>
+                </div>
+                <div class="details-section-container">
+                    <strong>Date: </strong>
+                    <p th:text="${#temporals.format(appointment.time, 'dd MMM YYYY')}"></p>
+                </div>
+                <div class="details-section-container">
+                    <strong>Status: </strong>
+                    <p th:text="${appointment.status}"> </p>
+                </div>
+            </div>
         </div>
 <!--        <div class="single-section-box home-subscription">-->
 <!--            <div class="default-label-box">-->

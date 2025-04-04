@@ -7,6 +7,7 @@ import com.example.spring_final_project.Doctor.model.Doctor;
 import com.example.spring_final_project.Doctor.service.DoctorService;
 import com.example.spring_final_project.User.model.User;
 import com.example.spring_final_project.User.service.UserService;
+import com.example.spring_final_project.exception.DomainException;
 import com.example.spring_final_project.notification.service.NotificationService;
 import com.example.spring_final_project.web.dto.AppointmentRegisterRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +39,7 @@ public class AppointmentService {
         this.doctorService = doctorService;
     }
 
-    @CacheEvict(value = {"appointments", "user-appointments"})
+    @CacheEvict(value = {"appointments", "user-appointments", "active-user-appointments"}, allEntries = true)
     public Appointment registerAppointment(AppointmentRegisterRequest appointmentRegisterRequest, UUID userId, UUID doctorId){
 
         User user = userService.getById(userId);
@@ -82,6 +83,15 @@ public class AppointmentService {
 
         return allByUserId.orElseGet(ArrayList::new);
     }
+
+    @Cacheable("active-user-appointments")
+    public List<Appointment> getAllActiveAppointmentsForUser(UUID userId){
+        AppointmentStatus[] statuses = {AppointmentStatus.PENDING, AppointmentStatus.COMPLETED};
+        Optional<List<Appointment>> allByUserId = appointmentRepository.findAllByUserIdAndStatusInOrderByTime(userId, statuses);
+
+        return allByUserId.orElseGet(ArrayList::new);
+    }
+
 
 
 }

@@ -18,6 +18,7 @@ public class PatientCardDetailsEditRequest {
     private String lastName;
 
     @URL(message = "Enter a valid URL!")
+    @Size(max = 200, message = "Too long!")
     private String profilePicture;
 
     @NotNull(message = "You must select an age of birth!")

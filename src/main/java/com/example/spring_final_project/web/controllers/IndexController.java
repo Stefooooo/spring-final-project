@@ -1,5 +1,7 @@
 package com.example.spring_final_project.web.controllers;
 
+import com.example.spring_final_project.Appointment.model.Appointment;
+import com.example.spring_final_project.Appointment.service.AppointmentService;
 import com.example.spring_final_project.Doctor.model.Doctor;
 import com.example.spring_final_project.Doctor.service.DoctorService;
 import com.example.spring_final_project.User.model.User;
@@ -20,16 +22,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class IndexController {
 
     private final UserService userService;
     private final DoctorService doctorService;
+    private final AppointmentService appointmentService;
 
     @Autowired
-    public IndexController(UserService userService, DoctorService doctorService) {
+    public IndexController(UserService userService, DoctorService doctorService, AppointmentService appointmentService) {
         this.userService = userService;
         this.doctorService = doctorService;
+        this.appointmentService = appointmentService;
     }
 
     @GetMapping("/")
@@ -103,24 +109,21 @@ public class IndexController {
     public ModelAndView getHomePage(@AuthenticationPrincipal UserAuthenticationData userAuthenticationData){
 
         User user = userService.getById(userAuthenticationData.getUserId());
+        List<Appointment> allActiveAppointmentsForUser = appointmentService.getAllActiveAppointmentsForUser(userAuthenticationData.getUserId());
+        long numberOfAppointments = allActiveAppointmentsForUser.size();
 
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("user", user);
         modelAndView.addObject("patientCard", user.getPatientCard());
+        if (numberOfAppointments > 0) {
+            modelAndView.addObject("appointment", allActiveAppointmentsForUser.getFirst());
+        } else {
+            modelAndView.addObject("appointment", new Appointment());
+        }
+        modelAndView.addObject("numberOfAppointments", numberOfAppointments);
 
         return modelAndView;
     }
 
-    @GetMapping("/home-doctor")
-    @PreAuthorize("hasRole('DOCTOR')")
-    public ModelAndView getDoctorHomePage(@AuthenticationPrincipal UserAuthenticationData doctorAuthenticationData){
-
-        Doctor doctor = doctorService.getById(doctorAuthenticationData.getUserId());
-
-        ModelAndView modelAndView = new ModelAndView("home-doctor");
-        modelAndView.addObject("doctor", doctor);
-
-        return modelAndView;
-    }
 
 }

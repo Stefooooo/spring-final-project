@@ -1,5 +1,6 @@
 package com.example.spring_final_project.web.controllers;
 
+import com.example.spring_final_project.Appointment.model.Appointment;
 import com.example.spring_final_project.Appointment.service.AppointmentService;
 import com.example.spring_final_project.Doctor.model.Doctor;
 import com.example.spring_final_project.Doctor.service.DoctorService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -70,6 +72,20 @@ public class AppointmentController {
         appointmentService.registerAppointment(appointmentRegisterRequest, user.getId(), id);
 
         return new ModelAndView("redirect:/home");
+    }
+
+    @GetMapping()
+    @PreAuthorize("hasRole('USER')")
+    public ModelAndView getAllAppointmentsForUser(@AuthenticationPrincipal UserAuthenticationData userAuthenticationData){
+
+        User user = userService.getById(userAuthenticationData.getUserId());
+        List<Appointment> appointments = appointmentService.getAllActiveAppointmentsForUser(user.getId());
+
+        ModelAndView modelAndView = new ModelAndView("appointments");
+        modelAndView.addObject("user", user);
+        modelAndView.addObject("appointments", appointments);
+
+        return modelAndView;
     }
 
 

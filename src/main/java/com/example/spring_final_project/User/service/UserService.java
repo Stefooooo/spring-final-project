@@ -5,6 +5,7 @@ import com.example.spring_final_project.User.model.User;
 import com.example.spring_final_project.User.model.UserRole;
 import com.example.spring_final_project.User.repository.UserRepository;
 import com.example.spring_final_project.exception.DomainException;
+import com.example.spring_final_project.exception.UsernameAlreadyExistException;
 import com.example.spring_final_project.notification.service.NotificationService;
 import com.example.spring_final_project.security.UserAuthenticationData;
 import com.example.spring_final_project.web.dto.EditUserProfileRequest;
@@ -53,7 +54,7 @@ public class UserService implements UserDetailsService {
         Optional<User> userOptional = userRepository.findByUsername(userRegisterRequest.getUsername());
 
         if(userOptional.isPresent()){
-            throw new DomainException("A user with a username [%s] already exists.".formatted(userRegisterRequest.getUsername()));
+            throw new UsernameAlreadyExistException("A user with a username [%s] already exists.".formatted(userRegisterRequest.getUsername()));
         }
 
         User user = userRepository.save(initializeUser(userRegisterRequest));
