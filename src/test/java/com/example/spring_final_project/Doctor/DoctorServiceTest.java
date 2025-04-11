@@ -1,18 +1,17 @@
 package com.example.spring_final_project.Doctor;
 
 import com.example.spring_final_project.Appointment.model.Appointment;
-import com.example.spring_final_project.Diagnosis.model.Diagnosis;
+
 import com.example.spring_final_project.Doctor.model.Departament;
 import com.example.spring_final_project.Doctor.model.Doctor;
 import com.example.spring_final_project.Doctor.repository.DoctorRepository;
 import com.example.spring_final_project.Doctor.service.DoctorService;
-import com.example.spring_final_project.User.model.User;
+
 import com.example.spring_final_project.User.model.UserRole;
 import com.example.spring_final_project.exception.DomainException;
 import com.example.spring_final_project.exception.UsernameAlreadyExistException;
 import com.example.spring_final_project.web.dto.DoctorRegisterRequest;
-import com.example.spring_final_project.web.dto.EditUserProfileRequest;
-import com.example.spring_final_project.web.dto.UserRegisterRequest;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
