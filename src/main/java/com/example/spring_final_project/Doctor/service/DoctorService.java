@@ -38,7 +38,7 @@ public class DoctorService {
     }
 
     @CacheEvict(value = "doctors", allEntries = true)
-    public void registerDoctor(DoctorRegisterRequest doctorRegisterRequest){
+    public Doctor registerDoctor(DoctorRegisterRequest doctorRegisterRequest){
 
         Optional<Doctor> byEmail = doctorRepository.findByEmail(doctorRegisterRequest.getEmail());
 
@@ -51,6 +51,8 @@ public class DoctorService {
         doctorRepository.save(doctor);
 
         log.info("A doctor with id [%s] and email [%s] was created successfully!".formatted(doctor.getId(), doctor.getEmail()));
+
+        return doctor;
 
     }
 

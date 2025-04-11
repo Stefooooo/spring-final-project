@@ -2,17 +2,13 @@ package com.example.spring_final_project.Condition.service;
 
 import com.example.spring_final_project.Condition.model.Condition;
 import com.example.spring_final_project.Condition.repository.ConditionRepository;
-import com.example.spring_final_project.Doctor.model.Departament;
 import com.example.spring_final_project.exception.DomainException;
 import com.example.spring_final_project.web.dto.ConditionAddRequest;
-import com.example.spring_final_project.web.dto.ConditionRegisterRequest;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import com.example.spring_final_project.exception.DomainException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,11 +51,15 @@ public class ConditionService {
     }
 
     @CacheEvict(value = {"conditions", "active-conditions"}, allEntries = true)
-    public void saveCondition(ConditionAddRequest conditionAddRequest) {
+    public Condition saveCondition(ConditionAddRequest conditionAddRequest) {
 
-        Condition condition = conditionRepository.save(initializeNewCondition(conditionAddRequest));
+        Condition condition = initializeNewCondition(conditionAddRequest);
+
+        conditionRepository.save(condition);
 
         log.info("A new condition with name [%s] and id [%s] was created!".formatted(condition.getName(), condition.getId()));
+
+        return condition;
     }
 
     @CacheEvict(value = {"conditions", "active-conditions"}, allEntries = true)

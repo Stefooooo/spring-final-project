@@ -25,8 +25,7 @@ public class NotificationPreferenceCreatorScheduler {
         this.userService = userService;
     }
 
-//    @Scheduled(cron = "* 0 2 * * *")
-    @Scheduled(fixedDelay = 200000)
+    @Scheduled(cron = "* 0 2 * * *")
     public void renewSubscriptions() {
 
         List<User> users = userService.getAllUsers();

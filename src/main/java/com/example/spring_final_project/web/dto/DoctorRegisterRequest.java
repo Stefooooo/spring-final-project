@@ -4,11 +4,15 @@ import com.example.spring_final_project.Doctor.model.Departament;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class DoctorRegisterRequest {
 
     @Email(message = "Enter a valid email!")

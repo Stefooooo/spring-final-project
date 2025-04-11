@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,5 +35,14 @@ public class Diagnosis {
 
     @ManyToOne()
     private Condition conditions;
+
+    @ManyToOne()
+    private PatientCard patientCard;
+
+    @Column
+    private LocalDateTime createdOn;
+
+    @Column
+    private LocalDateTime updatedOn;
 
 }

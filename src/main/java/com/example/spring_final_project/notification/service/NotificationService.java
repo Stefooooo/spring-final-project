@@ -27,7 +27,7 @@ public class NotificationService {
         this.notificationClient = notificationClient;
     }
 
-    @CacheEvict(value = {"preference", "notification_history"}, allEntries = true)
+    @CacheEvict(value = "notification_history", allEntries = true)
     public void saveNotificationPreference(UUID userId, boolean isEnabled, String email) {
 
         UpsertNotificationPreference upsertNotificationPreference = UpsertNotificationPreference.builder()
@@ -49,7 +49,7 @@ public class NotificationService {
 
     }
 
-    @CacheEvict(value = {"preference", "notification_history"}, allEntries = true)
+    @CacheEvict(value = "notification_history", allEntries = true)
     public void saveNotificationPreference(UUID userId, String email) {
 
         UpsertNotificationPreference upsertNotificationPreference = UpsertNotificationPreference.builder()
@@ -70,7 +70,6 @@ public class NotificationService {
 
     }
 
-    @Cacheable("preference")
     public NotificationPreference getUserPreference( UUID userId){
 
             ResponseEntity<NotificationPreference> httpResponse = notificationClient.getUserPreference(userId);
@@ -119,7 +118,6 @@ public class NotificationService {
         }
     }
 
-    @CacheEvict(value = "preference", allEntries = true)
     public void updateNotificationPreference( UUID userId, boolean enabled){
         try {
             notificationClient.updateNotificationPreference(userId, enabled);

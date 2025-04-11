@@ -111,7 +111,11 @@ public class UserService implements UserDetailsService {
 
         userRepository.save(user);
 
-        notificationService.saveNotificationPreference(user.getId(), user.getEmail());
+        if(editUserProfileRequest.getEmail().isEmpty()){
+            notificationService.saveNotificationPreference(user.getId(), null);
+        } else {
+            notificationService.saveNotificationPreference(user.getId(), user.getEmail());
+        }
 
         log.info("Successfully changed the details for user [%s]!".formatted(user.getUsername()));
     }

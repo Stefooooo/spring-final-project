@@ -28,13 +28,11 @@ import java.util.List;
 public class IndexController {
 
     private final UserService userService;
-    private final DoctorService doctorService;
     private final AppointmentService appointmentService;
 
     @Autowired
-    public IndexController(UserService userService, DoctorService doctorService, AppointmentService appointmentService) {
+    public IndexController(UserService userService, AppointmentService appointmentService) {
         this.userService = userService;
-        this.doctorService = doctorService;
         this.appointmentService = appointmentService;
     }
 
@@ -80,29 +78,6 @@ public class IndexController {
 
         return modelAndView;
     }
-
-//    @GetMapping("/register-doctor")
-//    public ModelAndView getRegisterDoctorPage(){
-//
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("doctors-register");
-//        modelAndView.addObject("doctorRegisterRequest", new DoctorRegisterRequest());
-//
-//        return modelAndView;
-//    }
-
-//    @PostMapping("/register-doctor")
-//    public ModelAndView registerNewDoctor(@Valid DoctorRegisterRequest doctorRegisterRequest, BindingResult bindingResult){
-//
-//        if(bindingResult.hasErrors()){
-//            return new ModelAndView("doctors-register");
-//        }
-//
-//        doctorService.register(doctorRegisterRequest);
-//
-//        return new ModelAndView("redirect:/login-doctor");
-//
-//    }
 
     @GetMapping("/home")
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")

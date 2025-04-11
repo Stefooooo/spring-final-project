@@ -26,7 +26,9 @@ public class PatientCardService {
     }
 
     public PatientCard createPatientCard(User user) {
-         PatientCard patientCard = patientCardRepository.save(initializePatientCard(user));
+         PatientCard patientCard = initializePatientCard(user);
+
+         patientCardRepository.save(patientCard);
 
          return patientCard;
     }
@@ -47,8 +49,8 @@ public class PatientCardService {
         return patientCardRepository.findById(id).orElseThrow(() -> new DomainException("Patient card with id [%s] cannot be found".formatted(id)));
     }
 
-    public void editCardDetails(UUID id, @Valid PatientCardDetailsEditRequest patientCardEditRequest) {
-        PatientCard patientCard = getById(id);
+    public void editCardDetails(UUID patientCardId, PatientCardDetailsEditRequest patientCardEditRequest) {
+        PatientCard patientCard = getById(patientCardId);
 
         patientCard.setFirstName(patientCardEditRequest.getFirstName());
         patientCard.setLastName(patientCardEditRequest.getLastName());
@@ -59,6 +61,11 @@ public class PatientCardService {
 
         patientCardRepository.save(patientCard);
 
-        log.info("Successfully updated patient card with id [%s]!".formatted(id));
+        log.info("Successfully updated patient card with id [%s]!".formatted(patientCardId));
+    }
+
+    public void cardWasUpdated(PatientCard patientCard) {
+        patientCard.setUpdatedOn(LocalDateTime.now());
+        patientCardRepository.save(patientCard);
     }
 }
