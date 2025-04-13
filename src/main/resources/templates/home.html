@@ -47,6 +47,23 @@
                     <strong>Joined: </strong>
                     <p th:text="${#temporals.format(user.createdOn, 'dd MMM YYYY HH:mm')}"></p>
                 </div>
+                <div class="single-section-box home-profile-information" th:if="${user.role.name() == 'USER' && numberOfAppointments > 0}">
+                    <div class="details-section-container">
+                        <strong>Next Appointment: </strong>
+                    </div>
+                    <div class="details-section-container">
+                        <strong>Doctor: </strong>
+                        <p th:text="${appointment.doctor.firstName + ' ' + appointment.doctor.lastName}"></p>
+                    </div>
+                    <div class="details-section-container">
+                        <strong>Date: </strong>
+                        <p th:text="${#temporals.format(appointment.time, 'dd MMM YYYY')}"></p>
+                    </div>
+                    <div class="details-section-container">
+                        <strong>Status: </strong>
+                        <p th:text="${appointment.status}"> </p>
+                    </div>
+                </div>
             </div>
             <!--      /users/{id}/profile-->
             <a th:href="@{'/users/' + ${user.id} + '/edit-profile'}" class="profile-actions-button">
@@ -102,29 +119,29 @@
         </div><br>
 
 
-        <div class="single-section-box home-profile-information" th:if="${user.role.name() == 'USER' && numberOfAppointments > 0}">
-            <div class="profile-header">
-                <div class="details-section">
-                    <div class="details-section-container">
-                        <strong>Next Appointment: </strong>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-info">
-                <div class="details-section-container">
-                    <strong>Doctor: </strong>
-                    <p th:text="${appointment.doctor.firstName + ' ' + appointment.doctor.lastName}"></p>
-                </div>
-                <div class="details-section-container">
-                    <strong>Date: </strong>
-                    <p th:text="${#temporals.format(appointment.time, 'dd MMM YYYY')}"></p>
-                </div>
-                <div class="details-section-container">
-                    <strong>Status: </strong>
-                    <p th:text="${appointment.status}"> </p>
-                </div>
-            </div>
-        </div>
+<!--        <div class="single-section-box home-profile-information" th:if="${user.role.name() == 'USER' && numberOfAppointments > 0}">-->
+<!--            <div class="profile-header">-->
+<!--                <div class="details-section">-->
+<!--                    <div class="details-section-container">-->
+<!--                        <strong>Next Appointment: </strong>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="profile-info">-->
+<!--                <div class="details-section-container">-->
+<!--                    <strong>Doctor: </strong>-->
+<!--                    <p th:text="${appointment.doctor.firstName + ' ' + appointment.doctor.lastName}"></p>-->
+<!--                </div>-->
+<!--                <div class="details-section-container">-->
+<!--                    <strong>Date: </strong>-->
+<!--                    <p th:text="${#temporals.format(appointment.time, 'dd MMM YYYY')}"></p>-->
+<!--                </div>-->
+<!--                <div class="details-section-container">-->
+<!--                    <strong>Status: </strong>-->
+<!--                    <p th:text="${appointment.status}"> </p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 <!--        <div class="single-section-box home-subscription">-->
 <!--            <div class="default-label-box">-->
 <!--                <p th:text="${user.subscriptions[0].type + ' SUBSCRIPTION'}"></p>-->

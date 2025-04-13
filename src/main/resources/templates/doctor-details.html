@@ -1,58 +1,121 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="/css/common.css">
   <link rel="stylesheet" type="text/css" href="/css/nav-side-bar.css">
-  <link rel="stylesheet" type="text/css" href="/css/doctors.css">
   <link rel="stylesheet" type="text/css" href="/css/home-common.css">
   <link rel="stylesheet" type="text/css" href="/css/home.css">
+  <link rel="stylesheet" type="text/css" href="/css/conditions.css">
   <link rel="stylesheet" type="text/css" href="/css/doctor-details.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>Doctor</title>
 </head>
 <body>
+<nav>
+
+</nav>
+<main>
+
+  <nav>
+    <th:block th:insert="~{fragments/navigation-bar :: nav_bar}"></th:block>
+  </nav>
+
+
+
+  <div class="home-section">
+    <div class="single-section-box subscriptions-container">
+
+
+      <div class="profile-section">
+        <img th:src="${#strings.isEmpty(doctor.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : doctor.profilePicture}" alt="Profile Picture" class="profile-avatar">
+      </div>
+
+      <div class="details-container">
+        <div class="details-card">
+          <h2>Personal Information</h2>
+          <div class="details-item"><span>Name:</span><span th:text="${doctor.firstName + ' ' + doctor.lastName}"></span></div>
+          <div class="details-item"><span>Description:</span><span th:text="${doctor.description}"></span></div>
+          <div class="details-item"><span>Department:</span><span th:text="${doctor.department}"></span></div>
+          <div class="details-item"><span>Years of Experience:</span><span th:text="${doctor.yearsOfExpertise}"></span></div>
+        </div>
+
+
+        <div class="details-card">
+          <h2>Contact Information</h2>
+          <div class="details-item"><span>Phone:</span><span th:text="${doctor.phoneNumber}"></span></div>
+          <div class="details-item"><span>Email:</span><span th:text="${doctor.email}"></span></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+<footer>
+  <th:block th:insert="~{fragments/footer :: footer}"></th:block>
+</footer>
+
 <div class="header">Doctor Profile Dashboard</div>
-<a th:href="@{'/appointments/add/' + ${doctor.id}}" class="all-doctor-button">Create appointment</a>
+<div>
+<!--  class="details-card"-->
+  <a th:href="@{'/appointments/add/' + ${doctor.id}}" class="all-doctor-button">Create appointment</a>
+</div>
+
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/common.css">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/nav-side-bar.css">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/doctors.css">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/home-common.css">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/home.css">-->
+<!--  <link rel="stylesheet" type="text/css" href="/css/doctor-details.css">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+
+<!--  <title>Doctor</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div class="header">Doctor Profile Dashboard</div>-->
+<!--<a th:href="@{'/appointments/add/' + ${doctor.id}}" class="all-doctor-button">Create appointment</a>-->
 
 <!--<nav>-->
 <!--  <th:block th:insert="~{fragments/navigation-bar :: nav_bar}"></th:block>-->
 <!--</nav>-->
 
-<div class="main-container">
-  <div class="profile-section">
-    <img th:src="${#strings.isEmpty(doctor.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : doctor.profilePicture}" alt="Profile Picture" class="profile-avatar">
-  </div>
+<!--<div class="main-container">-->
+<!--  <div class="profile-section">-->
+<!--    <img th:src="${#strings.isEmpty(doctor.profilePicture) ? 'https://icons.veryicon.com/png/o/miscellaneous/user-avatar/user-avatar-male-5.png' : doctor.profilePicture}" alt="Profile Picture" class="profile-avatar">-->
+<!--  </div>-->
 
-  <div class="details-container">
-    <div class="details-card">
-      <h2>Personal Information</h2>
-      <div class="details-item"><span>Name:</span><span th:text="${doctor.firstName + ' ' + doctor.lastName}"></span></div>
-      <div class="details-item"><span>Description:</span><span th:text="${doctor.description}"></span></div>
-      <div class="details-item"><span>Department:</span><span th:text="${doctor.department}"></span></div>
-      <div class="details-item"><span>Years of Experience:</span><span th:text="${doctor.yearsOfExpertise}"></span></div>
-<!--      <div class="details-item"><span>Country:</span><span th:="${doctor.country}">Bulgaria</span></div>-->
-    </div>
+<!--  <div class="details-container">-->
+<!--    <div class="details-card">-->
+<!--      <h2>Personal Information</h2>-->
+<!--      <div class="details-item"><span>Name:</span><span th:text="${doctor.firstName + ' ' + doctor.lastName}"></span></div>-->
+<!--      <div class="details-item"><span>Description:</span><span th:text="${doctor.description}"></span></div>-->
+<!--      <div class="details-item"><span>Department:</span><span th:text="${doctor.department}"></span></div>-->
+<!--      <div class="details-item"><span>Years of Experience:</span><span th:text="${doctor.yearsOfExpertise}"></span></div>-->
+<!--    </div>-->
+<!--    -->
 
 <!--    <div class="details-card">-->
-<!--      <h2>Payment Details</h2>-->
-<!--      <div class="details-item"><span>Amount:</span><span th:="${doctor.balance}">200 EUR</span></div>-->
+<!--      <h2>Contact Information</h2>-->
+<!--      <div class="details-item"><span>Phone:</span><span th:text="${doctor.phoneNumber}"></span></div>-->
+<!--      <div class="details-item"><span>Email:</span><span th:text="${doctor.email}"></span></div>-->
 <!--    </div>-->
-
-    <div class="details-card">
-      <h2>Contact Information</h2>
-      <div class="details-item"><span>Phone:</span><span th:text="${doctor.phoneNumber}"></span></div>
-      <div class="details-item"><span>Email:</span><span th:text="${doctor.email}"></span></div>
-<!--      <div class="details-item"><span>Address:</span><span th:="${doctor.phoneNumber}">Sofia, Borovo</span></div>-->
-    </div>
-  </div>
+<!--  </div>-->
 
 
 
-  <footer>
-    <th:block th:insert="~{fragments/footer :: footer}"></th:block>
-  </footer>
-</div>
-</body>
-</html>
+<!--  <footer>-->
+<!--    <th:block th:insert="~{fragments/footer :: footer}"></th:block>-->
+<!--  </footer>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
